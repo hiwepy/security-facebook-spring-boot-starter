@@ -51,7 +51,7 @@ import okhttp3.Response;
  * Facebook 登录授权 (authorization)过滤器
  */
 @Slf4j
-public class FacebookAuthenticationProcessingFilter extends AuthenticationProcessingFilter {
+public class FacebookAccessTokenAuthenticationProcessingFilter extends AuthenticationProcessingFilter {
 
     private static String GET_USER_INFO_URL = "https://graph.facebook.com/v7.0/me";
 	/**
@@ -65,7 +65,7 @@ public class FacebookAuthenticationProcessingFilter extends AuthenticationProces
 	private List<String> fields;
 	private String appSecret;
 	
-    public FacebookAuthenticationProcessingFilter(ObjectMapper objectMapper, OkHttpClient okhttp3Client) {
+    public FacebookAccessTokenAuthenticationProcessingFilter(ObjectMapper objectMapper, OkHttpClient okhttp3Client) {
     	super(new AntPathRequestMatcher("/login/facebook"));
     	this.objectMapper = objectMapper;
     	this.okhttp3Client = okhttp3Client;
@@ -128,7 +128,7 @@ public class FacebookAuthenticationProcessingFilter extends AuthenticationProces
             throw new FacebookAccessTokenIncorrectException(" Google Id Token Invalid ");
         }
 		
-		FacebookAuthenticationToken authRequest = new FacebookAuthenticationToken(uidString, profile, accessToken);
+		FacebookAccessTokenAuthenticationToken authRequest = new FacebookAccessTokenAuthenticationToken(uidString, profile, accessToken);
 		authRequest.setAppId(this.obtainAppId(request));
 		authRequest.setAppChannel(this.obtainAppChannel(request));
 		authRequest.setAppVersion(this.obtainAppVersion(request));

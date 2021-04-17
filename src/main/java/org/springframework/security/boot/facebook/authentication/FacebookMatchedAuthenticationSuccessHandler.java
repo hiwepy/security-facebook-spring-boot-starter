@@ -39,7 +39,7 @@ public class FacebookMatchedAuthenticationSuccessHandler implements MatchedAuthe
 	
 	@Override
 	public boolean supports(Authentication authentication) {
-		return SubjectUtils.isAssignableFrom(authentication.getClass(), FacebookAuthenticationToken.class);
+		return SubjectUtils.isAssignableFrom(authentication.getClass(), FacebookAccessTokenAuthenticationToken.class);
 	}
 
     @Override

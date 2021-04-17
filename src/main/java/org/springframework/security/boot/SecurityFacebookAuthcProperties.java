@@ -21,7 +21,7 @@ import java.util.List;
 import org.apache.commons.codec.digest.HmacAlgorithms;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.security.boot.biz.property.SecurityAuthcProperties;
-import org.springframework.security.boot.facebook.authentication.FacebookAuthenticationProcessingFilter;
+import org.springframework.security.boot.facebook.authentication.FacebookAccessTokenAuthenticationProcessingFilter;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -39,7 +39,7 @@ public class SecurityFacebookAuthcProperties extends SecurityAuthcProperties {
 	private String pathPattern = "/**";
 	
 	/** the token parameter name. Defaults to "token". */
-	private String authorizationParamName = FacebookAuthenticationProcessingFilter.AUTHORIZATION_PARAM;
+	private String authorizationParamName = FacebookAccessTokenAuthenticationProcessingFilter.AUTHORIZATION_PARAM;
 
 	private HmacAlgorithms algorithm;
 	private List<String> fields = Arrays.asList("id","name","gender");

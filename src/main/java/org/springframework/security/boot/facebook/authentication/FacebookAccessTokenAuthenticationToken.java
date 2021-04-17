@@ -22,18 +22,18 @@ import org.springframework.security.boot.biz.authentication.AbstractAuthenticati
 import org.springframework.security.core.GrantedAuthority;
 
 @SuppressWarnings("serial")
-public class FacebookAuthenticationToken extends AbstractAuthenticationToken {
+public class FacebookAccessTokenAuthenticationToken extends AbstractAuthenticationToken {
 
 	private String accessToken;
 	private Map<String, String> profile;
     
-    public FacebookAuthenticationToken( Object principal, Map<String, String> profile, String accessToken) {
+    public FacebookAccessTokenAuthenticationToken( Object principal, Map<String, String> profile, String accessToken) {
         super(principal);
         this.profile = profile;
         this.accessToken = accessToken;
     }
 
-    public FacebookAuthenticationToken( Object principal, Map<String, String> profile, String accessToken, Collection<? extends GrantedAuthority> authorities) {
+    public FacebookAccessTokenAuthenticationToken( Object principal, Map<String, String> profile, String accessToken, Collection<? extends GrantedAuthority> authorities) {
         super(principal, null, authorities);
         this.profile = profile;
         this.accessToken = accessToken;

@@ -20,7 +20,7 @@ import org.springframework.security.boot.biz.authentication.AuthenticationListen
 import org.springframework.security.boot.biz.authentication.nested.MatchedAuthenticationEntryPoint;
 import org.springframework.security.boot.biz.authentication.nested.MatchedAuthenticationFailureHandler;
 import org.springframework.security.boot.biz.authentication.nested.MatchedAuthenticationSuccessHandler;
-import org.springframework.security.boot.facebook.authentication.FacebookAuthenticationProcessingFilter;
+import org.springframework.security.boot.facebook.authentication.FacebookAccessTokenAuthenticationProcessingFilter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -94,9 +94,9 @@ public class SecurityFacebookFilterConfiguration {
 		}
 
 		
-		public FacebookAuthenticationProcessingFilter authenticationProcessingFilter() throws Exception {
+		public FacebookAccessTokenAuthenticationProcessingFilter authenticationProcessingFilter() throws Exception {
 	    	
-			FacebookAuthenticationProcessingFilter authenticationFilter = new FacebookAuthenticationProcessingFilter(this.objectMapper, this.okhttp3Client);
+			FacebookAccessTokenAuthenticationProcessingFilter authenticationFilter = new FacebookAccessTokenAuthenticationProcessingFilter(this.objectMapper, this.okhttp3Client);
 			
 			/**
 			 * 批量设置参数
