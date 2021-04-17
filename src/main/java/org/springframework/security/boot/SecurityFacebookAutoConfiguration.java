@@ -9,10 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.boot.facebook.authentication.FacebookMatchedAuthenticationEntryPoint;
 import org.springframework.security.boot.facebook.authentication.FacebookMatchedAuthenticationFailureHandler;
 
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.gson.GsonFactory;
+import okhttp3.OkHttpClient;
 
 @Configuration
 @AutoConfigureBefore(SecurityBizAutoConfiguration.class)
@@ -21,15 +18,9 @@ import com.google.api.client.json.gson.GsonFactory;
 public class SecurityFacebookAutoConfiguration {
 
 	@Bean
-	@ConditionalOnMissingBean
-	public HttpTransport transport() {
-		return new NetHttpTransport();
-	}
-	
-	@Bean
-	@ConditionalOnMissingBean
-	public JsonFactory jsonFactory() {
-		return new GsonFactory();
+	@ConditionalOnMissingBean(OkHttpClient.class)
+	public OkHttpClient okhttp3Client() {
+		return new OkHttpClient().newBuilder().build();
 	}
 	
 	@Bean

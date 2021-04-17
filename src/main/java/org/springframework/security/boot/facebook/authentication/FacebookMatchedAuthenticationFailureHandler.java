@@ -14,8 +14,10 @@ import org.springframework.security.boot.biz.authentication.nested.MatchedAuthen
 import org.springframework.security.boot.biz.exception.AuthResponse;
 import org.springframework.security.boot.biz.exception.AuthResponseCode;
 import org.springframework.security.boot.facebook.SpringSecurityFacebookMessageSource;
-import org.springframework.security.boot.facebook.exception.FacebookAccessTokenNotFoundException;
 import org.springframework.security.boot.facebook.exception.FacebookAccessTokenExpiredException;
+import org.springframework.security.boot.facebook.exception.FacebookAccessTokenIncorrectException;
+import org.springframework.security.boot.facebook.exception.FacebookAccessTokenInvalidException;
+import org.springframework.security.boot.facebook.exception.FacebookAccessTokenNotFoundException;
 import org.springframework.security.boot.utils.SubjectUtils;
 import org.springframework.security.core.AuthenticationException;
 
@@ -42,12 +44,18 @@ public class FacebookMatchedAuthenticationFailureHandler implements MatchedAuthe
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
 		
-		if (e instanceof FacebookAccessTokenNotFoundException) {
-			JSONObject.writeJSONString(response.getWriter(), AuthResponse.of(AuthResponseCode.SC_AUTHZ_CODE_REQUIRED.getCode(), 
-					messages.getMessage(AuthResponseCode.SC_AUTHZ_CODE_REQUIRED.getMsgKey(), e.getMessage())));
-		} else if (e instanceof FacebookAccessTokenExpiredException) {
+		if (e instanceof FacebookAccessTokenExpiredException) {
+			JSONObject.writeJSONString(response.getWriter(), AuthResponse.of(AuthResponseCode.SC_AUTHZ_CODE_EXPIRED.getCode(), 
+					messages.getMessage(AuthResponseCode.SC_AUTHZ_CODE_EXPIRED.getMsgKey(), e.getMessage())));
+		} else if (e instanceof FacebookAccessTokenIncorrectException) {
+			JSONObject.writeJSONString(response.getWriter(), AuthResponse.of(AuthResponseCode.SC_AUTHZ_CODE_INCORRECT.getCode(), 
+					messages.getMessage(AuthResponseCode.SC_AUTHZ_CODE_INCORRECT.getMsgKey(), e.getMessage())));
+		} else if (e instanceof FacebookAccessTokenInvalidException) {
 			JSONObject.writeJSONString(response.getWriter(), AuthResponse.of(AuthResponseCode.SC_AUTHZ_CODE_INVALID.getCode(), 
 					messages.getMessage(AuthResponseCode.SC_AUTHZ_CODE_INVALID.getMsgKey(), e.getMessage())));
+		} else if (e instanceof FacebookAccessTokenNotFoundException) {
+			JSONObject.writeJSONString(response.getWriter(), AuthResponse.of(AuthResponseCode.SC_AUTHZ_CODE_REQUIRED.getCode(), 
+					messages.getMessage(AuthResponseCode.SC_AUTHZ_CODE_REQUIRED.getMsgKey(), e.getMessage())));
 		}
 		
 	}

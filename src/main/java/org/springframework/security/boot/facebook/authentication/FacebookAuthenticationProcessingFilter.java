@@ -16,7 +16,6 @@
 package org.springframework.security.boot.facebook.authentication;
 
 import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -40,9 +39,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.alibaba.fastjson.JSONObject;
-import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.api.client.http.HttpTransport;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.HttpUrl;
@@ -97,57 +94,53 @@ public class FacebookAuthenticationProcessingFilter extends AuthenticationProces
 			throw new FacebookAccessTokenNotFoundException("accessToken not provided");
 		}
 		
+		long start = System.currentTimeMillis();
+		String uidString = null;
+		Map<String, String> profile = new HashMap<String, String>();
 		try {
 			
-			String uidString = null;
-			Map<String, String> profile = new HashMap<String, String>();
-			try {
-				
-				if(!fields.contains("id")) {
-					fields.add(0, "id");
+			if(!fields.contains("id")) {
+				fields.add(0, "id");
+			}
+            HttpUrl.Builder urlBuilder = HttpUrl.parse(GET_USER_INFO_URL).newBuilder();
+            urlBuilder.addQueryParameter("fields", StringUtils.join(fields , ","));
+            urlBuilder.addQueryParameter("access_token", accessToken);
+            urlBuilder.addQueryParameter("appsecret_proof", new HmacUtils(algorithm, appSecret).hmacHex(accessToken));
+
+            Request request1 = new Request.Builder().url(urlBuilder.build()).build();
+            Response response1 = okhttp3Client.newCall(request1).execute();
+            if (response1.isSuccessful()) {
+                String content = response1.body().string();
+                log.debug("Request Success: code : {}, body : {} , use time : {} ", response1.code(), content, System.currentTimeMillis() - start);
+                JSONObject jsonObject = JSONObject.parseObject(content);
+                if (jsonObject.getJSONObject("error") != null) {
+                    System.out.println(jsonObject.getJSONObject("error"));
+                    throw new FacebookAccessTokenExpiredException(jsonObject.getJSONObject("error").getString("message"));
+                }
+                uidString = jsonObject.getString("id");
+                for (String field : fields) {
+                	profile.put(field, jsonObject.getString(field));
 				}
-	            HttpUrl.Builder urlBuilder = HttpUrl.parse(GET_USER_INFO_URL).newBuilder();
-	            urlBuilder.addQueryParameter("fields", StringUtils.join(fields , ","));
-	            urlBuilder.addQueryParameter("access_token", accessToken);
-	            urlBuilder.addQueryParameter("appsecret_proof", new HmacUtils(algorithm, appSecret).hmacHex(accessToken));
+            }
+            
+        } catch (Exception e) {
+            log.error("Request Failure : {}, use time : {} ", e.getMessage(), System.currentTimeMillis() - start);
+            throw new FacebookAccessTokenIncorrectException(" Google Id Token Invalid ");
+        }
+		
+		FacebookAuthenticationToken authRequest = new FacebookAuthenticationToken(uidString, profile, accessToken);
+		authRequest.setAppId(this.obtainAppId(request));
+		authRequest.setAppChannel(this.obtainAppChannel(request));
+		authRequest.setAppVersion(this.obtainAppVersion(request));
+		authRequest.setUid(this.obtainUid(request));
+		authRequest.setLongitude(this.obtainLongitude(request));
+		authRequest.setLatitude(this.obtainLatitude(request));
+		authRequest.setSign(this.obtainSign(request));
+		
+		// Allow subclasses to set the "details" property
+		setDetails(request, authRequest);
 
-	            Request request1 = new Request.Builder().url(urlBuilder.build()).build();
-	            Response response1 = okhttp3Client.newCall(request1).execute();
-	            if (response1.isSuccessful()) {
-	                String content = response1.body().string();
-	                log.debug("Request Success: code : {}, body : {} , use time : {} ", response1.code(), content, System.currentTimeMillis() - start);
-	                JSONObject jsonObject = JSONObject.parseObject(content);
-	                if (jsonObject.getJSONObject("error") != null) {
-	                    System.out.println(jsonObject.getJSONObject("error"));
-	                    throw new FacebookAccessTokenExpiredException(jsonObject.getJSONObject("error").getString("message"));
-	                }
-	                uidString = jsonObject.getString("id");
-	                for (String field : fields) {
-	                	profile.put(field, jsonObject.getString(field));
-					}
-	            }
-	        } catch (Exception e) {
-	            log.error("Request Failure : {}, use time : {} ", e.getMessage(), System.currentTimeMillis() - start);
-	            throw new FacebookAccessTokenIncorrectException(" Google Id Token Invalid ");
-	        }
-			
-			FacebookAuthenticationToken authRequest = new FacebookAuthenticationToken(idToken, accessToken);
-			authRequest.setAppId(this.obtainAppId(request));
-			authRequest.setAppChannel(this.obtainAppChannel(request));
-			authRequest.setAppVersion(this.obtainAppVersion(request));
-			authRequest.setUid(this.obtainUid(request));
-			authRequest.setLongitude(this.obtainLongitude(request));
-			authRequest.setLatitude(this.obtainLatitude(request));
-			authRequest.setSign(this.obtainSign(request));
-			
-			// Allow subclasses to set the "details" property
-			setDetails(request, authRequest);
-
-			return this.getAuthenticationManager().authenticate(authRequest);
-			
-		} catch (GeneralSecurityException e) {
-			throw new FacebookAccessTokenExpiredException(" Google Id Token Verifier Exception : ", e);
-		}
+		return this.getAuthenticationManager().authenticate(authRequest);
 
     }
     
@@ -168,29 +161,31 @@ public class FacebookAuthenticationProcessingFilter extends AuthenticationProces
 	public void setAuthorizationParamName(String authorizationParamName) {
 		this.authorizationParamName = authorizationParamName;
 	}
-
-	public HttpTransport getTransport() {
-		return transport;
+	
+	public HmacAlgorithms getAlgorithm() {
+		return algorithm;
 	}
 
-	public void setTransport(HttpTransport transport) {
-		this.transport = transport;
+	public void setAlgorithm(HmacAlgorithms algorithm) {
+		this.algorithm = algorithm;
 	}
 
-	public JsonFactory getJsonFactory() {
-		return jsonFactory;
+	public List<String> getFields() {
+		return fields;
 	}
 
-	public void setJsonFactory(JsonFactory jsonFactory) {
-		this.jsonFactory = jsonFactory;
+	public void setFields(List<String> fields) {
+		this.fields = fields;
 	}
 
-	public String getClientId() {
-		return clientId;
+	public String getAppSecret() {
+		return appSecret;
 	}
 
-	public void setClientId(String clientId) {
-		this.clientId = clientId;
+	public void setAppSecret(String appSecret) {
+		this.appSecret = appSecret;
 	}
+ 
+	
 
 }
