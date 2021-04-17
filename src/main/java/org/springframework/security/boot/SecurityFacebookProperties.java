@@ -12,9 +12,9 @@ import lombok.ToString;
 @ToString
 public class SecurityFacebookProperties {
 
-	public static final String PREFIX = "spring.security.google";
+	public static final String PREFIX = "spring.security.facebook";
 
-	/** Whether Enable Google AccessToken Authentication. */
+	/** Whether Enable Facebook AccessToken Authentication. */
 	private boolean enabled = false;
 
 }

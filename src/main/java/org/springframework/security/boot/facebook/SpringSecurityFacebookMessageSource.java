@@ -28,7 +28,7 @@ public class SpringSecurityFacebookMessageSource extends ResourceBundleMessageSo
 	// ===================================================================================================
 
 	public SpringSecurityFacebookMessageSource() {
-		setBasename("org.springframework.security.boot.google.messages");
+		setBasename("org.springframework.security.boot.facebook.messages");
 	}
 
 	// ~ Methods

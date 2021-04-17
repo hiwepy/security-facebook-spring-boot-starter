@@ -48,7 +48,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 /**
- * Google 登录授权 (authorization)过滤器
+ * Facebook 登录授权 (authorization)过滤器
  */
 @Slf4j
 public class FacebookAuthenticationProcessingFilter extends AuthenticationProcessingFilter {

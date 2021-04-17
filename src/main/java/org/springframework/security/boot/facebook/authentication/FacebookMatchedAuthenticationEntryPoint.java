@@ -44,8 +44,9 @@ public class FacebookMatchedAuthenticationEntryPoint implements MatchedAuthentic
 	
 	@Override
 	public boolean supports(AuthenticationException e) {
-		return SubjectUtils.isAssignableFrom(e.getClass(), FacebookAccessTokenNotFoundException.class, 
-				FacebookAccessTokenExpiredException.class);
+		return SubjectUtils.isAssignableFrom(e.getClass(), FacebookAccessTokenExpiredException.class, 
+				FacebookAccessTokenIncorrectException.class, FacebookAccessTokenInvalidException.class,
+				FacebookAccessTokenNotFoundException.class );
 	}
 
 	@Override

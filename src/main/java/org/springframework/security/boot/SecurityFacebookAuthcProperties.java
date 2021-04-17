@@ -33,7 +33,7 @@ import lombok.ToString;
 @ToString
 public class SecurityFacebookAuthcProperties extends SecurityAuthcProperties {
 
-	public static final String PREFIX = "spring.security.google.authc";
+	public static final String PREFIX = "spring.security.facebook.authc";
 
 	/** Authorization Path Pattern */
 	private String pathPattern = "/**";

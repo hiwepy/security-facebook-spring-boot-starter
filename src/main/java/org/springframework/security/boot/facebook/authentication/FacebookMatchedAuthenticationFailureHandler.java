@@ -24,7 +24,7 @@ import org.springframework.security.core.AuthenticationException;
 import com.alibaba.fastjson.JSONObject;
 
 /**
- * Google认证请求失败后的处理实现
+ * Facebook 认证请求失败后的处理实现
  */
 public class FacebookMatchedAuthenticationFailureHandler implements MatchedAuthenticationFailureHandler {
 
@@ -32,8 +32,9 @@ public class FacebookMatchedAuthenticationFailureHandler implements MatchedAuthe
 	
 	@Override
 	public boolean supports(AuthenticationException e) {
-		return SubjectUtils.isAssignableFrom(e.getClass(), FacebookAccessTokenNotFoundException.class, 
-				FacebookAccessTokenExpiredException.class);
+		return SubjectUtils.isAssignableFrom(e.getClass(), FacebookAccessTokenExpiredException.class, 
+				FacebookAccessTokenIncorrectException.class, FacebookAccessTokenInvalidException.class,
+				FacebookAccessTokenNotFoundException.class );
 	}
 
 	@Override

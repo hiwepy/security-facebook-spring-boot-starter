@@ -24,7 +24,7 @@ import org.springframework.security.core.Authentication;
 import com.alibaba.fastjson.JSONObject;
 
 /**
- * Google 认证 (authentication)成功回调器：讲认证信息写回前端
+ * Facebook 认证 (authentication)成功回调器：讲认证信息写回前端
  * @author 		： <a href="https://github.com/hiwepy">hiwepy</a>
  */
 public class FacebookMatchedAuthenticationSuccessHandler implements MatchedAuthenticationSuccessHandler {
