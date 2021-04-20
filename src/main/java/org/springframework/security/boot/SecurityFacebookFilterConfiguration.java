@@ -1,6 +1,7 @@
 package org.springframework.security.boot;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.ObjectProvider;
@@ -33,6 +34,7 @@ import org.springframework.security.web.savedrequest.RequestCache;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
 
 @Configuration
@@ -87,7 +89,17 @@ public class SecurityFacebookFilterConfiguration {
    			this.authenticationSuccessHandler = super.authenticationSuccessHandler(authenticationListeners, authenticationSuccessHandlerProvider.stream().collect(Collectors.toList()));
    			this.authenticationFailureHandler = super.authenticationFailureHandler(authenticationListeners, authenticationFailureHandlerProvider.stream().collect(Collectors.toList()));
    			this.objectMapper = objectMapperProvider.getIfAvailable();
-   			this.okhttp3Client = okhttp3ClientProvider.getIfAvailable();
+   			this.okhttp3Client = okhttp3ClientProvider.getIfAvailable(() -> { 
+   				
+   				OkHttpClient.Builder builder = new OkHttpClient.Builder();
+   		        builder.connectTimeout(6L, TimeUnit.SECONDS);
+   		        builder.readTimeout(6L, TimeUnit.SECONDS);
+   		        builder.writeTimeout(6L, TimeUnit.SECONDS);
+   		        ConnectionPool connectionPool = new ConnectionPool(50, 60, TimeUnit.SECONDS);
+   		        builder.connectionPool(connectionPool);
+   		        return builder.build();
+   		        
+   			});
    			this.requestCache = super.requestCache();
    			this.rememberMeServices = super.rememberMeServices();
    			this.sessionAuthenticationStrategy = super.sessionAuthenticationStrategy();

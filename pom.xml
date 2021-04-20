@@ -389,6 +389,13 @@
 			    <artifactId>commons-codec</artifactId>
 			    <version>${commons-codec.version}</version>
 			</dependency>
+			<!-- https://mvnrepository.com/artifact/com.github.hiwepy/httpconn -->
+<dependency>
+    <groupId>com.github.hiwepy</groupId>
+    <artifactId>httpconn</artifactId>
+    <version>1.0.1.RELEASE</version>
+</dependency>
+			
 		</dependencies>
 	</dependencyManagement>
 	
