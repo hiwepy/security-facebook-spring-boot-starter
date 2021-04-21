@@ -27,15 +27,13 @@ public class FacebookAccessTokenAuthenticationToken extends AbstractAuthenticati
 	private String accessToken;
 	private Map<String, String> profile;
     
-    public FacebookAccessTokenAuthenticationToken( Object principal, Map<String, String> profile, String accessToken) {
+    public FacebookAccessTokenAuthenticationToken( Object principal, String accessToken) {
         super(principal);
-        this.profile = profile;
         this.accessToken = accessToken;
     }
 
-    public FacebookAccessTokenAuthenticationToken( Object principal, Map<String, String> profile, String accessToken, Collection<? extends GrantedAuthority> authorities) {
+    public FacebookAccessTokenAuthenticationToken( Object principal, String accessToken, Collection<? extends GrantedAuthority> authorities) {
         super(principal, null, authorities);
-        this.profile = profile;
         this.accessToken = accessToken;
     }
     
@@ -53,7 +51,11 @@ public class FacebookAccessTokenAuthenticationToken extends AbstractAuthenticati
 	public Map<String, String> getProfile() {
 		return profile;
 	}
-    
+	
+	public void setProfile(Map<String, String> profile) {
+		this.profile = profile;
+	}
+
 	public String getAccessToken() {
 		return accessToken;
 	}

@@ -128,7 +128,7 @@ public class FacebookAccessTokenAuthenticationProcessingFilter extends Authentic
             throw new FacebookAccessTokenIncorrectException(" Google Id Token Invalid ");
         }
 		
-		FacebookAccessTokenAuthenticationToken authRequest = new FacebookAccessTokenAuthenticationToken(uidString, profile, accessToken);
+		FacebookAccessTokenAuthenticationToken authRequest = new FacebookAccessTokenAuthenticationToken(uidString, accessToken);
 		authRequest.setAppId(this.obtainAppId(request));
 		authRequest.setAppChannel(this.obtainAppChannel(request));
 		authRequest.setAppVersion(this.obtainAppVersion(request));
@@ -136,6 +136,7 @@ public class FacebookAccessTokenAuthenticationProcessingFilter extends Authentic
 		authRequest.setLongitude(this.obtainLongitude(request));
 		authRequest.setLatitude(this.obtainLatitude(request));
 		authRequest.setSign(this.obtainSign(request));
+		authRequest.setProfile(profile);
 		
 		// Allow subclasses to set the "details" property
 		setDetails(request, authRequest);
