@@ -21,6 +21,7 @@ import org.springframework.security.boot.biz.authentication.AuthenticationListen
 import org.springframework.security.boot.biz.authentication.nested.MatchedAuthenticationEntryPoint;
 import org.springframework.security.boot.biz.authentication.nested.MatchedAuthenticationFailureHandler;
 import org.springframework.security.boot.biz.authentication.nested.MatchedAuthenticationSuccessHandler;
+import org.springframework.security.boot.biz.property.SecuritySessionMgtProperties;
 import org.springframework.security.boot.facebook.authentication.FacebookAccessTokenAuthenticationProcessingFilter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -66,6 +67,7 @@ public class SecurityFacebookFilterConfiguration {
 		public FacebookWebSecurityConfigurerAdapter(
    				
 				SecurityBizProperties bizProperties,
+				SecuritySessionMgtProperties sessionMgtProperties,
 				SecurityFacebookAuthcProperties authcProperties,
 				
 				ObjectProvider<LocaleContextFilter> localeContextProvider,
@@ -79,7 +81,7 @@ public class SecurityFacebookFilterConfiguration {
    				ObjectProvider<OkHttpClient> okhttp3ClientProvider
 				) {
 			
-			super(bizProperties, authcProperties, authenticationProvider.stream().collect(Collectors.toList()),
+			super(bizProperties, authcProperties, sessionMgtProperties, authenticationProvider.stream().collect(Collectors.toList()),
 					authenticationManagerProvider.getIfAvailable());
    			
 			this.authcProperties = authcProperties;
