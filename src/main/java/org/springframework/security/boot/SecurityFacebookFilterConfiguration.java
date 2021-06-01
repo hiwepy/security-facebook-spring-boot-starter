@@ -54,6 +54,7 @@ public class SecurityFacebookFilterConfiguration {
 
 	    private final SecurityFacebookAuthcProperties authcProperties;
 
+		private final LocaleContextFilter localeContextFilter;
 	    private final AuthenticationEntryPoint authenticationEntryPoint;
 	    private final AuthenticationSuccessHandler authenticationSuccessHandler;
 	    private final AuthenticationFailureHandler authenticationFailureHandler;
@@ -61,7 +62,6 @@ public class SecurityFacebookFilterConfiguration {
     	private final RequestCache requestCache;
     	private final RememberMeServices rememberMeServices;
 		private final SessionAuthenticationStrategy sessionAuthenticationStrategy;
-		private final LocaleContextFilter localeContextFilter;
 		private final OkHttpClient okhttp3Client;
 		
 		public FacebookWebSecurityConfigurerAdapter(
@@ -78,7 +78,8 @@ public class SecurityFacebookFilterConfiguration {
    				ObjectProvider<MatchedAuthenticationSuccessHandler> authenticationSuccessHandlerProvider,
    				ObjectProvider<MatchedAuthenticationFailureHandler> authenticationFailureHandlerProvider,
    				ObjectProvider<ObjectMapper> objectMapperProvider,
-   				ObjectProvider<OkHttpClient> okhttp3ClientProvider
+   				ObjectProvider<OkHttpClient> okhttp3ClientProvider,
+   				ObjectProvider<RememberMeServices> rememberMeServicesProvider
 				) {
 			
 			super(bizProperties, authcProperties, sessionMgtProperties, authenticationProvider.stream().collect(Collectors.toList()),
@@ -103,7 +104,7 @@ public class SecurityFacebookFilterConfiguration {
    		        
    			});
    			this.requestCache = super.requestCache();
-   			this.rememberMeServices = super.rememberMeServices();
+   			this.rememberMeServices = rememberMeServicesProvider.getIfAvailable();
    			this.sessionAuthenticationStrategy = super.sessionAuthenticationStrategy();
 		}
 
@@ -117,7 +118,7 @@ public class SecurityFacebookFilterConfiguration {
 			 */
 			PropertyMapper map = PropertyMapper.get().alwaysApplyingWhenNonNull();
 			
-			map.from(authcProperties.getSessionMgt().isAllowSessionCreation()).to(authenticationFilter::setAllowSessionCreation);
+			map.from(getSessionMgtProperties().isAllowSessionCreation()).to(authenticationFilter::setAllowSessionCreation);
 			
 			map.from(authenticationManagerBean()).to(authenticationFilter::setAuthenticationManager);
 			map.from(authenticationSuccessHandler).to(authenticationFilter::setAuthenticationSuccessHandler);
