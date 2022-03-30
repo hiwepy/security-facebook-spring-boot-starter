@@ -3,11 +3,15 @@ server:
 
 spring:
   security:
-    openid:
+    facebook:
       enabled: true
-      claimed-identity-field-name: fff
-      filter-processes-url: 4444
-      return-to-url-parameters:
-        d : d
-      realm-mapping:
-        sdd : xx 
+      authc:
+        algorithm: hmac_md5
+        authorization-param-name: accessToken
+        app-secret: appSecret
+        fields:
+          - id
+          - name
+          - gender
+        path-pattern: /login/facebook
+        post-only: true
