@@ -74,7 +74,6 @@ public class SecurityFacebookFilterConfiguration {
 
 				ObjectProvider<AuthenticationProvider> authenticationProvider,
    				ObjectProvider<AuthenticationListener> authenticationListenerProvider,
-				ObjectProvider<AuthenticationManager> authenticationManagerProvider,
    				ObjectProvider<MatchedAuthenticationEntryPoint> authenticationEntryPointProvider,
    				ObjectProvider<MatchedAuthenticationSuccessHandler> authenticationSuccessHandlerProvider,
    				ObjectProvider<MatchedAuthenticationFailureHandler> authenticationFailureHandlerProvider,
