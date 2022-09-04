@@ -20,7 +20,10 @@ import java.util.List;
 
 import org.apache.commons.codec.digest.HmacAlgorithms;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import org.springframework.security.boot.biz.property.SecurityAuthcProperties;
+import org.springframework.security.boot.biz.property.SecurityLogoutProperties;
+import org.springframework.security.boot.biz.property.SecurityRedirectProperties;
 import org.springframework.security.boot.facebook.authentication.FacebookAccessTokenAuthenticationProcessingFilter;
 
 import lombok.Getter;
@@ -37,12 +40,15 @@ public class SecurityFacebookAuthcProperties extends SecurityAuthcProperties {
 
 	/** Authorization Path Pattern */
 	private String pathPattern = "/**";
-	
+
 	/** the token parameter name. Defaults to "token". */
 	private String authorizationParamName = FacebookAccessTokenAuthenticationProcessingFilter.AUTHORIZATION_PARAM;
 
 	private HmacAlgorithms algorithm;
 	private List<String> fields = Arrays.asList("id","name","gender");
 	private String appSecret;
+
+	@NestedConfigurationProperty
+	private SecurityLogoutProperties logout = new SecurityLogoutProperties();
 
 }
