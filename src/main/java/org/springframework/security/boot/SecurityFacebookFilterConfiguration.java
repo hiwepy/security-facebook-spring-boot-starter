@@ -13,6 +13,7 @@ import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.context.properties.PropertyMapper;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -26,6 +27,7 @@ import org.springframework.security.boot.utils.WebSecurityUtils;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.RememberMeServices;
@@ -48,8 +50,7 @@ public class SecurityFacebookFilterConfiguration {
 	
 	@Configuration
 	@EnableConfigurationProperties({ SecurityFacebookProperties.class, SecurityFacebookAuthcProperties.class, SecurityBizProperties.class })
-	@Order(SecurityProperties.DEFAULT_FILTER_ORDER + 6)
-	static class FacebookWebSecurityConfigurerAdapter extends WebSecurityBizConfigurerAdapter {
+	static class FacebookWebSecurityCustomizerAdapter extends WebSecurityCustomizerAdapter {
 
 	    private final SecurityFacebookAuthcProperties authcProperties;
 
@@ -62,7 +63,7 @@ public class SecurityFacebookFilterConfiguration {
 		private final SessionAuthenticationStrategy sessionAuthenticationStrategy;
 		private final OkHttpClient okhttp3Client;
 		
-		public FacebookWebSecurityConfigurerAdapter(
+		public FacebookWebSecurityCustomizerAdapter(
    				
 				SecurityBizProperties bizProperties,
 				SecuritySessionMgtProperties sessionMgtProperties,
@@ -133,9 +134,10 @@ public class SecurityFacebookFilterConfiguration {
 			
 	        return authenticationFilter;
 	    }
-		
-		@Override
-		public void configure(HttpSecurity http) throws Exception {
+
+		@Bean
+		@Order(SecurityProperties.DEFAULT_FILTER_ORDER + 6)
+		public SecurityFilterChain facebookSecurityFilterChain(HttpSecurity http) throws Exception {
 			
 			http.antMatcher(authcProperties.getPathPattern())
 				.exceptionHandling()
@@ -150,12 +152,13 @@ public class SecurityFacebookFilterConfiguration {
    	    	super.configure(http, authcProperties.getCsrf());
    	    	super.configure(http, authcProperties.getHeaders());
 	    	super.configure(http);
+			return http.build();
 		}
-		
+
 		@Override
-	    public void configure(WebSecurity web) throws Exception {
-	    	super.configure(web);
-	    }
+		public void customize(WebSecurity web) {
+			super.customize(web);
+		}
 		
 	}
 	

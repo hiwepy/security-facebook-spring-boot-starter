@@ -1,0 +1,2 @@
+org.springframework.security.boot.SecurityFacebookAutoConfiguration
+org.springframework.security.boot.SecurityFacebookFilterConfiguration
