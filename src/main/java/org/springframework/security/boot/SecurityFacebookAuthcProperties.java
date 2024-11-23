@@ -15,17 +15,16 @@
  */
 package org.springframework.security.boot;
 
-import java.util.Arrays;
-import java.util.List;
-
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.apache.commons.codec.digest.HmacAlgorithms;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.security.boot.biz.property.SecurityAuthcProperties;
 import org.springframework.security.boot.facebook.authentication.FacebookAccessTokenAuthenticationProcessingFilter;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import java.util.Arrays;
+import java.util.List;
 
 @ConfigurationProperties(SecurityFacebookAuthcProperties.PREFIX)
 @Getter

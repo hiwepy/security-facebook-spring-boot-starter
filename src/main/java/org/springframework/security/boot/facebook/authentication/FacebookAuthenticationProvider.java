@@ -1,23 +1,20 @@
 package org.springframework.security.boot.facebook.authentication;
 
-import org.springframework.context.support.MessageSourceAccessor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AccountStatusUserDetailsChecker;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.boot.biz.userdetails.SecurityPrincipal;
 import org.springframework.security.boot.biz.userdetails.UserDetailsServiceAdapter;
-import org.springframework.security.boot.facebook.SpringSecurityFacebookMessageSource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsChecker;
 import org.springframework.util.Assert;
 
-import lombok.extern.slf4j.Slf4j;
-
 @Slf4j
 public class FacebookAuthenticationProvider implements AuthenticationProvider {
 	
-	protected MessageSourceAccessor messages = SpringSecurityFacebookMessageSource.getAccessor();
+	// protected MessageSourceAccessor messages = SpringSecurityFacebookMessageSource.getAccessor();
     private final UserDetailsServiceAdapter userDetailsService;
     private UserDetailsChecker userDetailsChecker = new AccountStatusUserDetailsChecker();
     

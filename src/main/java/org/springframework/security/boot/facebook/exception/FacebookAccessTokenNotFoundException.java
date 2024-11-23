@@ -20,7 +20,6 @@ import org.springframework.security.boot.biz.exception.AuthenticationTokenNotFou
 /**
  *	Facebook AccessToken Not Found Exception
  */
-@SuppressWarnings("serial")
 public class FacebookAccessTokenNotFoundException extends AuthenticationTokenNotFoundException {
 	
 	// ~ Constructors

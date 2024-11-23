@@ -15,11 +15,11 @@
  */
 package org.springframework.security.boot.facebook.authentication;
 
-import java.util.Collection;
-import java.util.Map;
-
 import org.springframework.security.boot.biz.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
+
+import java.util.Collection;
+import java.util.Map;
 
 @SuppressWarnings("serial")
 public class FacebookAccessTokenAuthenticationToken extends AbstractAuthenticationToken {

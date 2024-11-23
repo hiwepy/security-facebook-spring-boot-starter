@@ -21,7 +21,6 @@ import org.springframework.security.boot.biz.exception.AuthenticationTokenExpire
  * Facebook AccessToken Expired Exception
  * @author 		： <a href="https://github.com/hiwepy">wandl</a>
  */
-@SuppressWarnings("serial")
 public class FacebookAccessTokenExpiredException extends AuthenticationTokenExpiredException {
 	
 	// ~ Constructors
