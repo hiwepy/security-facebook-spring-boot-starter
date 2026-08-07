@@ -36,7 +36,7 @@ import org.springframework.security.boot.facebook.exception.FacebookAccessTokenN
 import org.springframework.security.boot.utils.WebUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -63,7 +63,7 @@ public class FacebookAccessTokenAuthenticationProcessingFilter extends Authentic
 	private String appSecret;
 	
     public FacebookAccessTokenAuthenticationProcessingFilter(ObjectMapper objectMapper, OkHttpClient okhttp3Client) {
-    	super(new AntPathRequestMatcher("/login/facebook"));
+		super(PathPatternRequestMatcher.pathPattern("/login/facebook"));
     	this.objectMapper = objectMapper;
     	this.okhttp3Client = okhttp3Client;
     	this.fields = Arrays.asList("id","name","gender");
