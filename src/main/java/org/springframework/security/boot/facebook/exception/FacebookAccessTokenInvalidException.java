@@ -19,7 +19,7 @@ import org.springframework.security.boot.biz.exception.AuthenticationTokenInvali
 
 /**
  * Facebook AccessToken Invalid Exception
- * @author 		： <a href="https://github.com/hiwepy">wandl</a>
+ * @author [@Loong Wan](https://github.com/loong10k)
  */
 public class FacebookAccessTokenInvalidException extends AuthenticationTokenInvalidException {
 	
