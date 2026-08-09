@@ -18,7 +18,12 @@ package org.springframework.security.boot.facebook.exception;
 import org.springframework.security.boot.biz.exception.AuthenticationTokenNotFoundException;
 
 /**
- *	Facebook AccessToken Not Found Exception
+ * Exception thrown when a Facebook access token is not found in the request.
+ * <p>Extends {@link AuthenticationTokenNotFoundException} to provide
+ * Facebook-specific error handling.</p>
+ *
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 1.0.0
  */
 public class FacebookAccessTokenNotFoundException extends AuthenticationTokenNotFoundException {
 	

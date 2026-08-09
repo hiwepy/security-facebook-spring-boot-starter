@@ -20,6 +20,12 @@ import java.net.URL;
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+/**
+ * Simple test class for verifying Facebook Graph API connectivity.
+ *
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 1.0.0
+ */
 @Slf4j
 public class Test {
 

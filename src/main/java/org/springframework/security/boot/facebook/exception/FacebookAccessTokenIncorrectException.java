@@ -18,8 +18,12 @@ package org.springframework.security.boot.facebook.exception;
 import org.springframework.security.boot.biz.exception.AuthenticationTokenIncorrectException;
 
 /**
- * Facebook AccessToken Incorrect Exception
+ * Exception thrown when a Facebook access token is incorrect.
+ * <p>Extends {@link AuthenticationTokenIncorrectException} to provide
+ * Facebook-specific error handling for incorrect tokens.</p>
+ *
  * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 1.0.0
  */
 public class FacebookAccessTokenIncorrectException extends AuthenticationTokenIncorrectException {
 	

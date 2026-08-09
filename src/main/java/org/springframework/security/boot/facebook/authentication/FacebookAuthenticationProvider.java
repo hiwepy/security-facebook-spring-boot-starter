@@ -11,6 +11,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsChecker;
 import org.springframework.util.Assert;
 
+/**
+ * Authentication provider for Facebook access token authentication.
+ * <p>Validates {@link FacebookAccessTokenAuthenticationToken} instances by loading
+ * user details via the configured {@link UserDetailsServiceAdapter}, performing
+ * user status checks, and returning an authenticated token with granted authorities.</p>
+ *
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 1.0.0
+ */
 @Slf4j
 public class FacebookAuthenticationProvider implements AuthenticationProvider {
 	
@@ -18,15 +27,32 @@ public class FacebookAuthenticationProvider implements AuthenticationProvider {
     private final UserDetailsServiceAdapter userDetailsService;
     private UserDetailsChecker userDetailsChecker = new AccountStatusUserDetailsChecker();
     
+    /**
+     * Constructs a new provider with the given user details service.
+     *
+     * @param userDetailsService the user details service adapter for loading user details
+     */
     public FacebookAuthenticationProvider(final UserDetailsServiceAdapter userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>Supports {@link FacebookAccessTokenAuthenticationToken} instances.</p>
+     */
     @Override
     public boolean supports(Class<?> authentication) {
         return (FacebookAccessTokenAuthenticationToken.class.isAssignableFrom(authentication));
     }
-    
+
+    /**
+     * Authenticates the given {@link FacebookAccessTokenAuthenticationToken} by loading user details
+     * and performing user status checks.
+     *
+     * @param authentication the authentication token to authenticate
+     * @return the authenticated token with granted authorities
+     * @throws AuthenticationException if authentication fails
+     */
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         
@@ -57,14 +83,29 @@ public class FacebookAuthenticationProvider implements AuthenticationProvider {
         return authenticationToken;
     }
 
+    /**
+     * Sets the user details checker used to verify user account status.
+     *
+     * @param userDetailsChecker the user details checker
+     */
     public void setUserDetailsChecker(UserDetailsChecker userDetailsChecker) {
 		this.userDetailsChecker = userDetailsChecker;
 	}
 
+	/**
+	 * Returns the user details checker used to verify user account status.
+	 *
+	 * @return the user details checker
+	 */
 	public UserDetailsChecker getUserDetailsChecker() {
 		return userDetailsChecker;
 	}
 
+	/**
+	 * Returns the user details service adapter.
+	 *
+	 * @return the user details service adapter
+	 */
 	public UserDetailsServiceAdapter getUserDetailsService() {
 		return userDetailsService;
 	}

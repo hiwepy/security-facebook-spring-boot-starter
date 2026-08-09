@@ -39,8 +39,18 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+/**
+ * Filter configuration for Facebook access token authentication.
+ * <p>Registers a {@link SecurityFilterChain} that includes the
+ * {@link FacebookAccessTokenAuthenticationProcessingFilter} for intercepting
+ * Facebook login requests. Activated only when
+ * {@code spring.security.facebook.enabled=true} and the application is a web application.</p>
+ *
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 1.0.0
+ */
 @Configuration
-@AutoConfigureBefore(name = { 
+@AutoConfigureBefore(name = {
 	"org.springframework.boot.security.autoconfigure.web.servlet.ServletWebSecurityAutoConfiguration"
 })
 @ConditionalOnWebApplication
@@ -48,6 +58,10 @@ import java.util.stream.Collectors;
 @EnableConfigurationProperties({ SecurityFacebookProperties.class, SecurityFacebookAuthcProperties.class, SecurityBizProperties.class })
 public class SecurityFacebookFilterConfiguration {
 	
+	/**
+	 * Web security customizer that configures the Facebook access token authentication filter
+	 * and registers a {@link SecurityFilterChain} for Facebook login paths.
+	 */
 	@Configuration
 	@EnableConfigurationProperties({ SecurityFacebookProperties.class, SecurityFacebookAuthcProperties.class, SecurityBizProperties.class })
 	static class FacebookWebSecurityCustomizerAdapter extends WebSecurityCustomizerAdapter {
@@ -111,6 +125,12 @@ public class SecurityFacebookFilterConfiguration {
 		}
 
 		
+		/**
+		 * Creates and configures the {@link FacebookAccessTokenAuthenticationProcessingFilter}.
+		 *
+		 * @return the configured authentication processing filter
+		 * @throws Exception if filter initialization fails
+		 */
 		public FacebookAccessTokenAuthenticationProcessingFilter authenticationProcessingFilter() throws Exception {
 	    	
 			FacebookAccessTokenAuthenticationProcessingFilter authenticationFilter = new FacebookAccessTokenAuthenticationProcessingFilter(this.objectMapper, this.okhttp3Client);
@@ -138,6 +158,13 @@ public class SecurityFacebookFilterConfiguration {
 	        return authenticationFilter;
 	    }
 
+		/**
+		 * Builds the {@link SecurityFilterChain} for Facebook authentication with highest precedence + 6.
+		 *
+		 * @param http the {@link HttpSecurity} to configure
+		 * @return the configured security filter chain
+		 * @throws Exception if configuration fails
+		 */
 		@Bean
 		@Order(Ordered.HIGHEST_PRECEDENCE + 6)
 		public SecurityFilterChain facebookSecurityFilterChain(HttpSecurity http) throws Exception {

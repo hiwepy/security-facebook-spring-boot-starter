@@ -19,8 +19,12 @@ import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
 /**
- * TODO
+ * Message source for Facebook authentication error messages.
+ * <p>Loads localized messages from the {@code org.springframework.security.boot.facebook.messages}
+ * resource bundle and provides a static accessor for convenient retrieval.</p>
+ *
  * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 1.0.0
  */
 public class SpringSecurityFacebookMessageSource extends ResourceBundleMessageSource {
 	
@@ -34,6 +38,11 @@ public class SpringSecurityFacebookMessageSource extends ResourceBundleMessageSo
 	// ~ Methods
 	// ========================================================================================================
 
+	/**
+	 * Returns a {@link MessageSourceAccessor} backed by a new instance of this message source.
+	 *
+	 * @return a message source accessor for Facebook authentication messages
+	 */
 	public static MessageSourceAccessor getAccessor() {
 		return new MessageSourceAccessor(new SpringSecurityFacebookMessageSource());
 	}

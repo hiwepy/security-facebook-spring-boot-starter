@@ -18,8 +18,12 @@ package org.springframework.security.boot.facebook.exception;
 import org.springframework.security.boot.biz.exception.AuthenticationTokenExpiredException;
 
 /**
- * Facebook AccessToken Expired Exception
+ * Exception thrown when a Facebook access token has expired.
+ * <p>Extends {@link AuthenticationTokenExpiredException} to provide
+ * Facebook-specific error handling for expired tokens.</p>
+ *
  * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 1.0.0
  */
 public class FacebookAccessTokenExpiredException extends AuthenticationTokenExpiredException {
 	

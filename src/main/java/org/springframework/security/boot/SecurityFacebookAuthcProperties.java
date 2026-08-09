@@ -26,6 +26,15 @@ import org.springframework.security.boot.facebook.authentication.FacebookAccessT
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Configuration properties for Facebook access token authentication.
+ * <p>Binds to the {@code spring.security.facebook.authc} prefix and extends
+ * the common authentication properties with Facebook-specific settings such as
+ * HMAC algorithm, requested profile fields, and application secret.</p>
+ *
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 1.0.0
+ */
 @ConfigurationProperties(SecurityFacebookAuthcProperties.PREFIX)
 @Getter
 @Setter
@@ -34,14 +43,19 @@ public class SecurityFacebookAuthcProperties extends SecurityAuthcProperties {
 
 	public static final String PREFIX = "spring.security.facebook.authc";
 
-	/** Authorization Path Pattern */
+	/** Authorization path pattern. */
 	private String pathPattern = "/**";
-	
-	/** the token parameter name. Defaults to "token". */
+
+	/** The token parameter name. Defaults to "token". */
 	private String authorizationParamName = FacebookAccessTokenAuthenticationProcessingFilter.AUTHORIZATION_PARAM;
 
+	/** HMAC algorithm used to generate the {@code appsecret_proof} for Facebook Graph API requests. */
 	private HmacAlgorithms algorithm;
+
+	/** List of Facebook profile fields to request (e.g. {@code id}, {@code name}, {@code gender}). */
 	private List<String> fields = Arrays.asList("id","name","gender");
+
+	/** Facebook application secret used to compute the {@code appsecret_proof}. */
 	private String appSecret;
 
 }

@@ -45,7 +45,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Facebook 登录授权 (authorization)过滤器
+ * Authentication processing filter for Facebook access token login.
+ * <p>Intercepts requests to the Facebook login endpoint, extracts the access token
+ * from the request body or query parameters, validates it against the Facebook Graph API,
+ * and creates an {@link FacebookAccessTokenAuthenticationToken} for authentication.</p>
+ *
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 1.0.0
  */
 @Slf4j
 public class FacebookAccessTokenAuthenticationProcessingFilter extends AuthenticationProcessingFilter {
@@ -62,6 +68,12 @@ public class FacebookAccessTokenAuthenticationProcessingFilter extends Authentic
 	private List<String> fields;
 	private String appSecret;
 	
+    /**
+     * Constructs a new filter with the given object mapper and HTTP client.
+     *
+     * @param objectMapper the Jackson object mapper for JSON deserialization
+     * @param okhttp3Client the OkHttp client for calling the Facebook Graph API
+     */
     public FacebookAccessTokenAuthenticationProcessingFilter(ObjectMapper objectMapper, OkHttpClient okhttp3Client) {
 		super(PathPatternRequestMatcher.pathPattern("/login/facebook"));
     	this.objectMapper = objectMapper;
@@ -69,6 +81,17 @@ public class FacebookAccessTokenAuthenticationProcessingFilter extends Authentic
     	this.fields = Arrays.asList("id","name","gender");
     }
 
+    /**
+     * Attempts to authenticate the request by extracting the Facebook access token,
+     * validating it against the Facebook Graph API, and returning an authenticated token.
+     *
+     * @param request the HTTP servlet request
+     * @param response the HTTP servlet response
+     * @return the authenticated {@link Authentication} object
+     * @throws AuthenticationException if authentication fails
+     * @throws IOException if an I/O error occurs
+     * @throws ServletException if a servlet error occurs
+     */
     @Override
     public Authentication doAttemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException, IOException, ServletException {
@@ -142,44 +165,95 @@ public class FacebookAccessTokenAuthenticationProcessingFilter extends Authentic
 
     }
     
+	/**
+	 * Extracts the access token from the HTTP request parameters.
+	 *
+	 * @param request the HTTP servlet request
+	 * @return the access token, or {@code null} if not present
+	 */
 	protected String obtainAccessToken(HttpServletRequest request) {
-		// 从参数中获取token
 		String token = request.getParameter(getAuthorizationParamName());
 		return token;
 	}
 
+	/**
+	 * Sets the details on the authentication token using the authentication details source.
+	 *
+	 * @param request the HTTP servlet request
+	 * @param authRequest the authentication token to populate
+	 */
 	protected void setDetails(HttpServletRequest request, AbstractAuthenticationToken authRequest) {
 		authRequest.setDetails(authenticationDetailsSource.buildDetails(request));
 	}
-	
+
+	/**
+	 * Returns the name of the request parameter that carries the access token.
+	 *
+	 * @return the authorization parameter name
+	 */
 	public String getAuthorizationParamName() {
 		return authorizationParamName;
 	}
 
+	/**
+	 * Sets the name of the request parameter that carries the access token.
+	 *
+	 * @param authorizationParamName the authorization parameter name
+	 */
 	public void setAuthorizationParamName(String authorizationParamName) {
 		this.authorizationParamName = authorizationParamName;
 	}
-	
+
+	/**
+	 * Returns the HMAC algorithm used for {@code appsecret_proof} generation.
+	 *
+	 * @return the HMAC algorithm
+	 */
 	public HmacAlgorithms getAlgorithm() {
 		return algorithm;
 	}
 
+	/**
+	 * Sets the HMAC algorithm used for {@code appsecret_proof} generation.
+	 *
+	 * @param algorithm the HMAC algorithm
+	 */
 	public void setAlgorithm(HmacAlgorithms algorithm) {
 		this.algorithm = algorithm;
 	}
 
+	/**
+	 * Returns the list of Facebook profile fields to request.
+	 *
+	 * @return the list of profile fields
+	 */
 	public List<String> getFields() {
 		return fields;
 	}
 
+	/**
+	 * Sets the list of Facebook profile fields to request.
+	 *
+	 * @param fields the list of profile fields
+	 */
 	public void setFields(List<String> fields) {
 		this.fields = fields;
 	}
 
+	/**
+	 * Returns the Facebook application secret.
+	 *
+	 * @return the application secret
+	 */
 	public String getAppSecret() {
 		return appSecret;
 	}
 
+	/**
+	 * Sets the Facebook application secret.
+	 *
+	 * @param appSecret the application secret
+	 */
 	public void setAppSecret(String appSecret) {
 		this.appSecret = appSecret;
 	}

@@ -18,8 +18,12 @@ package org.springframework.security.boot.facebook.exception;
 import org.springframework.security.boot.biz.exception.AuthenticationTokenInvalidException;
 
 /**
- * Facebook AccessToken Invalid Exception
+ * Exception thrown when a Facebook access token is invalid.
+ * <p>Extends {@link AuthenticationTokenInvalidException} to provide
+ * Facebook-specific error handling for invalid tokens.</p>
+ *
  * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 1.0.0
  */
 public class FacebookAccessTokenInvalidException extends AuthenticationTokenInvalidException {
 	
@@ -27,7 +31,7 @@ public class FacebookAccessTokenInvalidException extends AuthenticationTokenInva
 	// ===================================================================================================
 
 	/**
-	 * Constructs an <code>GoogleIdTokenVerifierException</code> with the
+	 * Constructs a {@code FacebookAccessTokenInvalidException} with the
 	 * specified message.
 	 *
 	 * @param msg the detail message
@@ -37,7 +41,7 @@ public class FacebookAccessTokenInvalidException extends AuthenticationTokenInva
 	}
 
 	/**
-	 * Constructs an <code>GoogleIdTokenVerifierException</code> with the
+	 * Constructs a {@code FacebookAccessTokenInvalidException} with the
 	 * specified message and root cause.
 	 *
 	 * @param msg the detail message
