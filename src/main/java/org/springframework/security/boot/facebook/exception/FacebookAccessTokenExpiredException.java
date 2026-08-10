@@ -19,7 +19,7 @@ import org.springframework.security.boot.biz.exception.AuthenticationTokenExpire
 
 /**
  * Facebook AccessToken Expired Exception
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  */
 public class FacebookAccessTokenExpiredException extends AuthenticationTokenExpiredException {
 	
