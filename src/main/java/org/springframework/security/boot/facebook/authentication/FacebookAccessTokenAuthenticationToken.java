@@ -27,7 +27,7 @@ import java.util.Map;
  * from the Facebook Graph API. Used throughout the authentication flow to carry
  * the principal and granted authorities.</p>
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 1.0.0
  */
 @SuppressWarnings("serial")

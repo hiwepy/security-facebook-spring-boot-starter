@@ -23,7 +23,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
  * <p>Loads localized messages from the {@code org.springframework.security.boot.facebook.messages}
  * resource bundle and provides a static accessor for convenient retrieval.</p>
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 1.0.0
  */
 public class SpringSecurityFacebookMessageSource extends ResourceBundleMessageSource {

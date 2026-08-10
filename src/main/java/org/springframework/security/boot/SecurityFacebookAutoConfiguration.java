@@ -19,7 +19,7 @@ import org.springframework.security.boot.facebook.authentication.FacebookMatched
  * provider required for Facebook access token authentication. This configuration is
  * activated only when {@code spring.security.facebook.enabled=true}.</p>
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 1.0.0
  */
 @Configuration

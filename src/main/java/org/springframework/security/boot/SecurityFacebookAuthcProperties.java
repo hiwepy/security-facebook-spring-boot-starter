@@ -32,7 +32,7 @@ import java.util.List;
  * the common authentication properties with Facebook-specific settings such as
  * HMAC algorithm, requested profile fields, and application secret.</p>
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 1.0.0
  */
 @ConfigurationProperties(SecurityFacebookAuthcProperties.PREFIX)

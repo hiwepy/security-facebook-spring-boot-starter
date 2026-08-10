@@ -22,7 +22,7 @@ import org.springframework.security.boot.biz.exception.AuthenticationTokenNotFou
  * <p>Extends {@link AuthenticationTokenNotFoundException} to provide
  * Facebook-specific error handling.</p>
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 1.0.0
  */
 public class FacebookAccessTokenNotFoundException extends AuthenticationTokenNotFoundException {

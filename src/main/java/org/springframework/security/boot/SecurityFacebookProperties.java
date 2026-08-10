@@ -10,7 +10,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * <p>Binds to the {@code spring.security.facebook} prefix and controls whether
  * Facebook access token authentication is enabled.</p>
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 1.0.0
  */
 @ConfigurationProperties(prefix = SecurityFacebookProperties.PREFIX)

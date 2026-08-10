@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Tests for the onAuthenticationFailure method of {@link FacebookMatchedAuthenticationFailureHandler}.
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 1.0.0
  */
 @DisplayName("FacebookMatchedAuthenticationFailureHandler.onAuthenticationFailure Tests")
