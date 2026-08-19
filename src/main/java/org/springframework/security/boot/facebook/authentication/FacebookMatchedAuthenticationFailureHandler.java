@@ -34,6 +34,12 @@ public class FacebookMatchedAuthenticationFailureHandler implements MatchedAuthe
 
 	protected MessageSourceAccessor messages = SpringSecurityFacebookMessageSource.getAccessor();
 
+	/**
+	 * Determines whether supports.
+	 *
+	 * @param e the e
+	 * @return the result
+	 */
 	@Override
 	public boolean supports(AuthenticationException e) {
 		return SubjectUtils.isAssignableFrom(e.getClass(), FacebookAccessTokenExpiredException.class,
@@ -41,6 +47,15 @@ public class FacebookMatchedAuthenticationFailureHandler implements MatchedAuthe
 				FacebookAccessTokenNotFoundException.class );
 	}
 
+	/**
+	 * on Authentication Failure.
+	 *
+	 * @param request the request
+	 * @param response the response
+	 * @param e the e
+	 * @throws IOException if an error occurs
+	 * @throws ServletException if an error occurs
+	 */
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException e) throws IOException, ServletException {

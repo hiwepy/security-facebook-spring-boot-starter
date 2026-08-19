@@ -49,6 +49,12 @@ public class FacebookMatchedAuthenticationEntryPoint implements MatchedAuthentic
 
 	protected MessageSourceAccessor messages = SpringSecurityFacebookMessageSource.getAccessor();
 
+	/**
+	 * Determines whether supports.
+	 *
+	 * @param e the e
+	 * @return the result
+	 */
 	@Override
 	public boolean supports(AuthenticationException e) {
 		return SubjectUtils.isAssignableFrom(e.getClass(), FacebookAccessTokenExpiredException.class,
@@ -56,6 +62,13 @@ public class FacebookMatchedAuthenticationEntryPoint implements MatchedAuthentic
 				FacebookAccessTokenNotFoundException.class );
 	}
 
+	/**
+	 * commence.
+	 *
+	 * @param request the request
+	 * @param response the response
+	 * @param e the e
+	 */
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e)
 			throws IOException, ServletException {

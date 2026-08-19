@@ -53,6 +53,12 @@ import java.util.stream.Collectors;
 @AutoConfigureBefore(name = {
 	"org.springframework.boot.security.autoconfigure.web.servlet.ServletWebSecurityAutoConfiguration"
 })
+/**
+ * <p>Configuration properties.</p>
+ *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ * @since 1.0.0
+ */
 @ConditionalOnWebApplication
 @ConditionalOnProperty(prefix = SecurityFacebookProperties.PREFIX, value = "enabled", havingValue = "true")
 @EnableConfigurationProperties({ SecurityFacebookProperties.class, SecurityFacebookAuthcProperties.class, SecurityBizProperties.class })
@@ -184,6 +190,11 @@ public class SecurityFacebookFilterConfiguration {
 			return http.build();
 		}
 
+		/**
+		 * customize.
+		 *
+		 * @param web the web
+		 */
 		@Override
 		public void customize(WebSecurity web) {
 			super.customize(web);

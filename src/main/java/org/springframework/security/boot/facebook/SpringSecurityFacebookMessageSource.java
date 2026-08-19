@@ -31,6 +31,10 @@ public class SpringSecurityFacebookMessageSource extends ResourceBundleMessageSo
 	// ~ Constructors
 	// ===================================================================================================
 
+	/**
+	 * Constructs a new spring security facebook message source instance.
+	 *
+	 */
 	public SpringSecurityFacebookMessageSource() {
 		setBasename("org.springframework.security.boot.facebook.messages");
 	}
